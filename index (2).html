@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ASBUN - Asinan Buah Ngangenin</title>
+  <style>
+    :root{
+      --bg: #fffaf5;
+      --card: rgba(255,255,255,0.92);
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #f97316;
+      --primary-dark: #ea580c;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --border: #e5e7eb;
+      --shadow: 0 18px 40px rgba(0,0,0,.08);
+      --radius: 22px;
+    }
+
+    *{
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html{
+      scroll-behavior: smooth;
+    }
+
+    body{
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top, #fff1e6 0%, #fffaf5 35%, #f8fafc 100%);
+      min-height: 100vh;
+    }
+
+    a{
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .container{
+      width: min(1200px, 92vw);
+      margin: 0 auto;
+    }
+
+    .hero{
+      padding: 28px 0 16px;
+    }
+
+    .hero-card{
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.7);
+      border-radius: 30px;
+      background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-grid{
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 0;
+    }
+
+    .hero-left{
+      padding: 34px;
+    }
+
+    .badge{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: #ffedd5;
+      color: #c2410c;
+      font-weight: 700;
+      font-size: .92rem;
+    }
+
+    .hero h1{
+      margin-top: 18px;
+      font-size: clamp(2rem, 5vw, 4.2rem);
+      line-height: 1.05;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+    }
+
+    .hero h1 span{
+      display: block;
+      color: var(--primary);
+    }
+
+    .hero p{
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 1.04rem;
+      line-height: 1.8;
+      max-width: 720px;
+    }
+
+    .hero-actions{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .btn{
+      border: none;
+      cursor: pointer;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-weight: 700;
+      transition: .25s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .btn-primary{
+      background: var(--primary);
+      color: #fff;
+      box-shadow: 0 12px 24px rgba(249,115,22,.25);
+    }
+
+    .btn-primary:hover{
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .btn-outline{
+      background: white;
+      color: #374151;
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover{
+      border-color: #fdba74;
+      color: var(--primary-dark);
+      transform: translateY(-2px);
+    }
+
+    .stats{
+      margin-top: 28px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .stat{
+      background: #fff;
+      border: 1px solid #f3f4f6;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .stat .label{
+      color: var(--muted);
+      font-size: .82rem;
+      text-transform: uppercase;
+      letter-spacing: .05em;
+      font-weight: 800;
+    }
+
+    .stat .value{
+      margin-top: 6px;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .hero-right{
+      padding: 28px;
+      background: linear-gradient(180deg, #fb923c, #f97316, #fb7185);
+      color: white;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hero-right::before{
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,.18) 1px, transparent 1px);
+      background-size: 20px 20px;
+      opacity: .55;
+    }
+
+    .preview{
+      position: relative;
+      width: 100%;
+      max-width: 360px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 28px;
+      padding: 22px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 35px rgba(0,0,0,.15);
+    }
+
+    .preview-top{
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .preview-title{
+      font-size: 1.4rem;
+      line-height: 1.2;
+      font-weight: 900;
+    }
+
+    .preview-badge{
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.18);
+      font-size: .85rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .preview-box{
+      margin-top: 18px;
+      background: #fff;
+      color: var(--text);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 15px 30px rgba(0,0,0,.12);
+    }
+
+    .price{
+      color: var(--primary);
+      font-size: 1.9rem;
+      font-weight: 900;
+      margin-top: 10px;
+    }
+
+    .preview-desc{
+      margin-top: 12px;
+      line-height: 1.7;
+      color: #4b5563;
+      font-size: .96rem;
+    }
+
+    .preview-grid{
+      margin-top: 16px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .preview-mini{
+      background: rgba(255,255,255,.12);
+      border-radius: 18px;
+      padding: 14px;
+      font-size: .92rem;
+    }
+
+    .section{
+      padding: 10px 0 30px;
+    }
+
+    .section-head{
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 18px;
+    }
+
+    .section-head h2{
+      font-size: clamp(1.4rem, 3vw, 2.1rem);
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .section-head p{
+      color: var(--muted);
+      line-height: 1.7;
+      max-width: 600px;
+    }
+
+    .grid{
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .product-card{
+      background: var(--card);
+      border: 1px solid #f3f4f6;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      transition: .25s ease;
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .product-card:hover{
+      transform: translateY(-4px);
+    }
+
+    .product-visual{
+      height: 160px;
+      background: linear-gradient(135deg, #fed7aa, #fdba74, #fb7185);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+
+    .product-emoji{
+      font-size: 4.2rem;
+      filter: drop-shadow(0 8px 15px rgba(0,0,0,.15));
+    }
+
+    .tag{
+      position: absolute;
+      top: 14px;
+      left: 14px;
+      background: rgba(255,255,255,.92);
+      color: #9a3412;
+      font-weight: 800;
+      font-size: .8rem;
+      padding: 8px 12px;
+      border-radius: 999px;
+    }
+
+    .product-body{
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      flex: 1;
+    }
+
+    .product-name{
+      font-size: 1.16rem;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .product-desc{
+      color: var(--muted);
+      line-height: 1.7;
+      font-size: .95rem;
+    }
+
+    .product-row{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: auto;
+    }
+
+    .product-price{
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+    }
+
+    .qty-box{
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid var(--border);
+      background: #fff;
+      border-radius: 999px;
+      padding: 6px;
+    }
+
+    .qty-btn{
+      width: 34px;
+      height: 34px;
+      border: none;
+      border-radius: 50%;
+      background: #fff7ed;
+      color: #c2410c;
+      font-size: 1.2rem;
+      font-weight: 900;
+      cursor: pointer;
+      transition: .2s ease;
+    }
+
+    .qty-btn:hover{
+      transform: scale(1.05);
+      background: #ffedd5;
+    }
+
+    .qty-num{
+      min-width: 28px;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .layout{
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .panel{
+      background: var(--card);
+      border: 1px solid #f3f4f6;
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .panel-head{
+      padding: 20px 22px;
+      border-bottom: 1px solid #f3f4f6;
+      background: linear-gradient(180deg, #fff, #fff7ed);
+    }
+
+    .panel-head h3{
+      font-size: 1.35rem;
+      font-weight: 900;
+    }
+
+    .panel-head p{
+      margin-top: 6px;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    .panel-body{
+      padding: 22px;
+    }
+
+    .form-grid{
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+
+    .field{
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .field.full{
+      grid-column: 1 / -1;
+    }
+
+    .field label{
+      font-weight: 800;
+      font-size: .93rem;
+      color: #374151;
+    }
+
+    .field input,
+    .field textarea,
+    .field select{
+      width: 100%;
+      border: 1px solid #dbe0e6;
+      border-radius: 16px;
+      padding: 13px 14px;
+      font: inherit;
+      background: #fff;
+      outline: none;
+      transition: .2s ease;
+      color: var(--text);
+    }
+
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus{
+      border-color: #fdba74;
+      box-shadow: 0 0 0 4px rgba(251,146,60,.12);
+    }
+
+    .cart-list{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .cart-item{
+      border: 1px solid #eef2f7;
+      background: #fff;
+      border-radius: 18px;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .cart-info h4{
+      font-size: 1rem;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+
+    .cart-info small{
+      color: var(--muted);
+    }
+
+    .cart-actions{
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .cart-actions .mini-btn{
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      border: 1px solid #e5e7eb;
+      background: white;
+      cursor: pointer;
+      font-weight: 900;
+      transition: .2s ease;
+    }
+
+    .cart-actions .mini-btn:hover{
+      border-color: #fdba74;
+      color: var(--primary-dark);
+    }
+
+    .cart-actions .count{
+      min-width: 34px;
+      text-align: center;
+      font-weight: 900;
+    }
+
+    .summary{
+      margin-top: 18px;
+      background: linear-gradient(135deg, #fff7ed, #ffedd5);
+      border: 1px solid #fed7aa;
+      border-radius: 22px;
+      padding: 18px;
+    }
+
+    .summary-row{
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 5px 0;
+      color: #374151;
+      font-weight: 700;
+    }
+
+    .summary-total{
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      padding-top: 12px;
+      margin-top: 12px;
+      border-top: 1px dashed #fdba74;
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #111827;
+    }
+
+    .helper{
+      margin-top: 12px;
+      font-size: .92rem;
+      line-height: 1.7;
+      color: #6b7280;
+    }
+
+    .footer{
+      padding: 20px 0 30px;
+      color: #6b7280;
+      text-align: center;
+      font-size: .95rem;
+    }
+
+    .floating{
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 50;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .floating .btn{
+      border-radius: 999px;
+      box-shadow: 0 14px 28px rgba(0,0,0,.14);
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 20px;
+      transform: translateX(-50%) translateY(120%);
+      background: #111827;
+      color: white;
+      padding: 12px 16px;
+      border-radius: 999px;
+      box-shadow: 0 14px 26px rgba(0,0,0,.2);
+      transition: .35s ease;
+      z-index: 100;
+      font-size: .95rem;
+      max-width: min(92vw, 540px);
+      text-align: center;
+    }
+
+    .toast.show{
+      transform: translateX(-50%) translateY(0);
+    }
+
+    @media (max-width: 980px){
+      .hero-grid,
+      .layout,
+      .grid{
+        grid-template-columns: 1fr;
+      }
+
+      .hero-right{
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 640px){
+      .hero-left,
+      .panel-body,
+      .panel-head{
+        padding-left: 16px;
+        padding-right: 16px;
+      }
+
+      .stats{
+        grid-template-columns: 1fr;
+      }
+
+      .form-grid{
+        grid-template-columns: 1fr;
+      }
+
+      .section-head{
+        flex-direction: column;
+        align-items: start;
+      }
+
+      .product-row{
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .floating{
+        left: 50%;
+        right: auto;
+        transform: translateX(-50%);
+        width: calc(100vw - 24px);
+      }
+
+      .floating .btn{
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <div class="container">
+      <div class="hero-card">
+        <div class="hero-grid">
+          <div class="hero-left">
+            <div class="badge">✨ ASBUN · Asinan Buah Ngangenin</div>
+            <h1>
+              Web order yang simpel,
+              <span>modern, dan langsung ke WhatsApp</span>
+            </h1>
+            <p>
+              Website ini dibuat sebagai prototype pemesanan untuk produk asinan buah.
+              Pelanggan bisa memilih menu, mengatur jumlah pesanan, mengisi data diri,
+              lalu klik tombol WhatsApp untuk kirim order otomatis ke nomor bisnis.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#menu">Lihat Menu</a>
+              <a class="btn btn-outline" href="#order">Pesan Sekarang</a>
+            </div>
+
+            <div class="stats">
+              <div class="stat">
+                <div class="label">Harga mulai</div>
+                <div class="value" id="statHarga">Rp6.000</div>
+              </div>
+              <div class="stat">
+                <div class="label">Mode order</div>
+                <div class="value">WhatsApp</div>
+              </div>
+              <div class="stat">
+                <div class="label">Status</div>
+                <div class="value">Ready dipakai</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="hero-right">
+            <div class="preview" id="previewBox">
+              <div class="preview-top">
+                <div>
+                  <div style="font-size:.9rem;opacity:.9;font-weight:700;">Preview produk</div>
+                  <div class="preview-title" id="previewName">Asinan Mix Segar</div>
+                </div>
+                <div class="preview-badge" id="previewBadge">Best Seller</div>
+              </div>
+
+              <div class="preview-box">
+                <div style="font-size:3rem;line-height:1;" id="previewEmoji">🍓</div>
+                <div class="price" id="previewPrice">Rp6.000</div>
+                <div class="preview-desc" id="previewDesc">
+                  Perpaduan buah segar dengan kuah asinan yang manis, asam, pedas, dan segar.
+                </div>
+              </div>
+
+              <div class="preview-grid">
+                <div class="preview-mini">
+                  <strong>Nomor WA</strong><br>
+                  0859138427505
+                </div>
+                <div class="preview-mini">
+                  <strong>Fitur</strong><br>
+                  Keranjang otomatis
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="section" id="menu">
+      <div class="section-head">
+        <div>
+          <h2>Menu Produk</h2>
+          <p>Pilih produk di bawah ini. Jumlah bisa ditambah atau dikurangi langsung dari kartu menu maupun keranjang.</p>
+        </div>
+      </div>
+
+      <div class="grid" id="productGrid"></div>
+    </section>
+
+    <section class="section" id="order">
+      <div class="layout">
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Form Pemesanan</h3>
+            <p>Isi data pembeli dengan lengkap agar pesanan bisa langsung diproses.</p>
+          </div>
+          <div class="panel-body">
+            <div class="form-grid">
+              <div class="field">
+                <label for="nama">Nama Pembeli</label>
+                <input id="nama" type="text" placeholder="Contoh: Mulut" />
+              </div>
+
+              <div class="field">
+                <label for="hp">Nomor HP</label>
+                <input id="hp" type="text" placeholder="08xxxxxxxxxx" />
+              </div>
+
+              <div class="field full">
+                <label for="alamat">Alamat Lengkap</label>
+                <textarea id="alamat" rows="3" placeholder="Tulis alamat lengkap di sini"></textarea>
+              </div>
+
+              <div class="field">
+                <label for="metode">Metode Pesan</label>
+                <select id="metode">
+                  <option value="Ambil di tempat">Ambil di tempat</option>
+                  <option value="Delivery">Delivery</option>
+                  <option value="Pre-order">Pre-order</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="catatan">Catatan Tambahan</label>
+                <input id="catatan" type="text" placeholder="Contoh: kurang pedas, kirim sore" />
+              </div>
+
+              <div class="field full">
+                <label for="jadwal">Waktu Pengiriman / Ambil</label>
+                <input id="jadwal" type="text" placeholder="Contoh: 13.00 WIB" />
+              </div>
+            </div>
+
+            <div class="summary">
+              <div class="summary-row">
+                <span>Jumlah item</span>
+                <span id="summaryItem">0</span>
+              </div>
+              <div class="summary-row">
+                <span>Sub total</span>
+                <span id="summarySub">Rp0</span>
+              </div>
+              <div class="summary-row">
+                <span>Biaya tambahan</span>
+                <span id="summaryFee">Rp0</span>
+              </div>
+              <div class="summary-total">
+                <span>Total bayar</span>
+                <span id="summaryTotal">Rp0</span>
+              </div>
+              <div class="helper">
+                Klik tombol <strong>Pesan via WhatsApp</strong> untuk membuka chat ke nomor bisnis.
+                Pesanan akan otomatis terisi rapi di pesan.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3>Keranjang</h3>
+            <p>Daftar pesanan yang sedang kamu pilih.</p>
+          </div>
+          <div class="panel-body">
+            <div class="cart-list" id="cartList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">
+      ASBUN · Segarnya Bikin Kangen, Rasanya Bikin Nagih!
+    </div>
+  </main>
+
+  <div class="floating">
+    <button class="btn btn-primary" id="btnWa">Pesan via WhatsApp</button>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    const WA_NUMBER = "62859138427505";
+
+    const products = [
+      {
+        id: 1,
+        name: "Asinan Mix Segar",
+        price: 6000,
+        emoji: "🥭",
+        badge: "Best Seller",
+        desc: "Perpaduan buah segar dengan kuah asinan yang manis, asam, pedas, dan segar."
+      },
+      {
+        id: 2,
+        name: "Asinan Extra Pedas",
+        price: 6000,
+        emoji: "🌶️",
+        badge: "Pedas",
+        desc: "Cocok untuk yang suka sensasi pedas segar dalam satu cup."
+      },
+      {
+        id: 3,
+        name: "Family Pack",
+        price: 15000,
+        emoji: "👨‍👩‍👧‍👦",
+        badge: "Hemat",
+        desc: "Ukuran besar untuk dibagi bareng keluarga atau teman."
+      }
+    ];
+
+    const state = {
+      cart: loadCart(),
+      selectedProductId: 1
+    };
+
+    const els = {
+      productGrid: document.getElementById("productGrid"),
+      cartList: document.getElementById("cartList"),
+      previewName: document.getElementById("previewName"),
+      previewBadge: document.getElementById("previewBadge"),
+      previewEmoji: document.getElementById("previewEmoji"),
+      previewPrice: document.getElementById("previewPrice"),
+      previewDesc: document.getElementById("previewDesc"),
+      statHarga: document.getElementById("statHarga"),
+      summaryItem: document.getElementById("summaryItem"),
+      summarySub: document.getElementById("summarySub"),
+      summaryFee: document.getElementById("summaryFee"),
+      summaryTotal: document.getElementById("summaryTotal"),
+      nama: document.getElementById("nama"),
+      hp: document.getElementById("hp"),
+      alamat: document.getElementById("alamat"),
+      metode: document.getElementById("metode"),
+      catatan: document.getElementById("catatan"),
+      jadwal: document.getElementById("jadwal"),
+      btnWa: document.getElementById("btnWa"),
+      toast: document.getElementById("toast")
+    };
+
+    function rupiah(value){
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function loadCart(){
+      try{
+        const raw = localStorage.getItem("asbun_cart");
+        const parsed = raw ? JSON.parse(raw) : {};
+        if (parsed && typeof parsed === "object") return parsed;
+      }catch(e){}
+      return {};
+    }
+
+    function saveCart(){
+      localStorage.setItem("asbun_cart", JSON.stringify(state.cart));
+    }
+
+    function getQty(id){
+      return Number(state.cart[id] || 0);
+    }
+
+    function setQty(id, qty){
+      if (qty <= 0) delete state.cart[id];
+      else state.cart[id] = qty;
+      saveCart();
+      renderAll();
+    }
+
+    function addQty(id, delta){
+      const next = getQty(id) + delta;
+      setQty(id, next);
+      const product = products.find(p => p.id === id);
+      if (product && delta > 0) {
+        showToast(`${product.name} ditambahkan ke keranjang`);
+      }
+    }
+
+    function moneyNumber(value){
+      return `Rp${value.toLocaleString("id-ID")}`;
+    }
+
+    function showToast(message){
+      els.toast.textContent = message;
+      els.toast.classList.add("show");
+      clearTimeout(showToast._t);
+      showToast._t = setTimeout(() => {
+        els.toast.classList.remove("show");
+      }, 1800);
+    }
+
+    function buildTotals(){
+      let itemCount = 0;
+      let subTotal = 0;
+
+      products.forEach(product => {
+        const qty = getQty(product.id);
+        itemCount += qty;
+        subTotal += qty * product.price;
+      });
+
+      const fee = getDeliveryFee();
+      const total = subTotal + fee;
+
+      return { itemCount, subTotal, fee, total };
+    }
+
+    function getDeliveryFee(){
+      const metode = els.metode.value;
+      if (metode === "Delivery") return 3000;
+      return 0;
+    }
+
+    function renderProductGrid(){
+      els.productGrid.innerHTML = "";
+
+      products.forEach(product => {
+        const card = document.createElement("article");
+        card.className = "product-card";
+
+        card.innerHTML = `
+          <div class="product-visual">
+            <div class="tag">${product.badge}</div>
+            <div class="product-emoji">${product.emoji}</div>
+          </div>
+          <div class="product-body">
+            <div>
+              <div class="product-name">${product.name}</div>
+              <div class="product-desc">${product.desc}</div>
+            </div>
+            <div class="product-row">
+              <div class="product-price">${rupiah(product.price)}</div>
+              <div class="qty-box">
+                <button class="qty-btn" aria-label="Kurangi" data-action="minus" data-id="${product.id}">−</button>
+                <div class="qty-num">${getQty(product.id)}</div>
+                <button class="qty-btn" aria-label="Tambah" data-action="plus" data-id="${product.id}">+</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        if (state.selectedProductId === product.id){
+          card.style.outline = "2px solid #fdba74";
+          card.style.outlineOffset = "2px";
+        }
+
+        card.addEventListener("click", (e) => {
+          const target = e.target;
+          const action = target.dataset.action;
+          const id = Number(target.dataset.id);
+
+          if (action === "plus") addQty(id, 1);
+          else if (action === "minus") addQty(id, -1);
+          else selectPreview(id);
+        });
+
+        els.productGrid.appendChild(card);
+      });
+    }
+
+    function renderCart(){
+      els.cartList.innerHTML = "";
+
+      const selected = products.filter(product => getQty(product.id) > 0);
+
+      if (selected.length === 0){
+        const empty = document.createElement("div");
+        empty.className = "cart-item";
+        empty.innerHTML = `
+          <div class="cart-info">
+            <h4>Keranjang masih kosong</h4>
+            <small>Silakan pilih menu dulu ya.</small>
+          </div>
+        `;
+        els.cartList.appendChild(empty);
+        return;
+      }
+
+      selected.forEach(product => {
+        const qty = getQty(product.id);
+        const item = document.createElement("div");
+        item.className = "cart-item";
+
+        const info = document.createElement("div");
+        info.className = "cart-info";
+        info.innerHTML = `
+          <h4>${product.name}</h4>
+          <small>${rupiah(product.price)} × ${qty} = ${rupiah(product.price * qty)}</small>
+        `;
+
+        const actions = document.createElement("div");
+        actions.className = "cart-actions";
+
+        const minus = document.createElement("button");
+        minus.className = "mini-btn";
+        minus.textContent = "−";
+        minus.addEventListener("click", () => addQty(product.id, -1));
+
+        const count = document.createElement("div");
+        count.className = "count";
+        count.textContent = qty;
+
+        const plus = document.createElement("button");
+        plus.className = "mini-btn";
+        plus.textContent = "+";
+        plus.addEventListener("click", () => addQty(product.id, 1));
+
+        actions.append(minus, count, plus);
+        item.append(info, actions);
+        els.cartList.appendChild(item);
+      });
+    }
+
+    function renderPreview(){
+      const product = products.find(p => p.id === state.selectedProductId) || products[0];
+      els.previewName.textContent = product.name;
+      els.previewBadge.textContent = product.badge;
+      els.previewEmoji.textContent = product.emoji;
+      els.previewPrice.textContent = rupiah(product.price);
+      els.previewDesc.textContent = product.desc;
+      els.statHarga.textContent = rupiah(Math.min(...products.map(p => p.price)));
+    }
+
+    function renderSummary(){
+      const { itemCount, subTotal, fee, total } = buildTotals();
+      els.summaryItem.textContent = itemCount;
+      els.summarySub.textContent = rupiah(subTotal);
+      els.summaryFee.textContent = rupiah(fee);
+      els.summaryTotal.textContent = rupiah(total);
+    }
+
+    function selectPreview(id){
+      state.selectedProductId = id;
+      renderAll();
+    }
+
+    function renderAll(){
+      renderPreview();
+      renderProductGrid();
+      renderCart();
+      renderSummary();
+    }
+
+    function getOrderText(){
+      const nama = els.nama.value.trim();
+      const hp = els.hp.value.trim();
+      const alamat = els.alamat.value.trim();
+      const metode = els.metode.value.trim();
+      const catatan = els.catatan.value.trim();
+      const jadwal = els.jadwal.value.trim();
+
+      const selected = products.filter(product => getQty(product.id) > 0);
+      const { itemCount, subTotal, fee, total } = buildTotals();
+
+      let text = `Halo ASBUN, saya ingin pesan:%0A%0A`;
+      text += `Nama: ${nama}%0A`;
+      text += `No. HP: ${hp}%0A`;
+      text += `Alamat: ${alamat}%0A`;
+      text += `Metode: ${metode}%0A`;
+      if (jadwal) text += `Waktu: ${jadwal}%0A`;
+      if (catatan) text += `Catatan: ${catatan}%0A`;
+      text += `%0APesanan:%0A`;
+
+      selected.forEach(product => {
+        const qty = getQty(product.id);
+        text += `- ${qty}x ${product.name} (${rupiah(product.price)} / pcs)%0A`;
+      });
+
+      text += `%0AJumlah item: ${itemCount}%0A`;
+      text += `Sub total: ${moneyNumber(subTotal)}%0A`;
+      text += `Biaya tambahan: ${moneyNumber(fee)}%0A`;
+      text += `Total bayar: ${moneyNumber(total)}%0A%0A`;
+      text += `Mohon konfirmasi ya. Terima kasih 🙏`;
+
+      return text;
+    }
+
+    function validateForm(){
+      const nama = els.nama.value.trim();
+      const hp = els.hp.value.trim();
+      const alamat = els.alamat.value.trim();
+      const itemCount = buildTotals().itemCount;
+
+      if (!nama){
+        showToast("Nama pembeli harus diisi");
+        els.nama.focus();
+        return false;
+      }
+
+      if (!hp){
+        showToast("Nomor HP harus diisi");
+        els.hp.focus();
+        return false;
+      }
+
+      if (!alamat){
+        showToast("Alamat lengkap harus diisi");
+        els.alamat.focus();
+        return false;
+      }
+
+      if (itemCount === 0){
+        showToast("Keranjang masih kosong");
+        return false;
+      }
+
+      return true;
+    }
+
+    function sendToWhatsApp(){
+      if (!validateForm()) return;
+      const text = getOrderText();
+      const url = `https://wa.me/${WA_NUMBER}?text=${text}`;
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    els.btnWa.addEventListener("click", sendToWhatsApp);
+    els.metode.addEventListener("change", renderSummary);
+
+    document.querySelectorAll("input, textarea, select").forEach(el => {
+      el.addEventListener("input", () => {
+        if (el === els.metode) renderSummary();
+      });
+    });
+
+    window.addEventListener("keydown", (e) => {
+      if (e.ctrlKey && e.key.toLowerCase() === "enter") {
+        sendToWhatsApp();
+      }
+    });
+
+    renderAll();
+  </script>
+</body>
+</html>
